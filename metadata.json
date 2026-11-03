@@ -1,0 +1,6 @@
+{
+  "name": "EduVocab 1-12: Học Từ Vựng Tiếng Anh & Flashcard Thông Minh",
+  "description": "Ứng dụng học từ vựng Tiếng Anh Lớp 1 - Lớp 12 chuẩn sách Global Success với Flashcard 3D thông minh, hệ thống lặp lại ngắt quãng (SRS) tối ưu trí nhớ dài hạn, phát âm chuẩn và các bài tập đa giác quan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
