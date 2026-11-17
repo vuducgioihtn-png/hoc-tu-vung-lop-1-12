@@ -1,9 +1,11 @@
 import React from 'react';
-import { BookOpen, Layers, Brain, Award, Search, Sparkles, Flame, CheckCircle2 } from 'lucide-react';
+import { BookOpen, Layers, Brain, Award, Search, Sparkles, Flame, CheckCircle2, Headphones } from 'lucide-react';
+
+type NavTab = 'overview' | 'flashcard' | 'dictation' | 'practice' | 'srs' | 'dictionary' | 'grade1_visual';
 
 interface NavbarProps {
-  currentTab: 'overview' | 'flashcard' | 'practice' | 'srs' | 'dictionary' | 'grade1_visual';
-  onSelectTab: (tab: 'overview' | 'flashcard' | 'practice' | 'srs' | 'dictionary' | 'grade1_visual') => void;
+  currentTab: NavTab;
+  onSelectTab: (tab: NavTab) => void;
   selectedGrade: number;
   onSelectGrade: (grade: number) => void;
   dueCount: number;
@@ -81,6 +83,17 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Layers className="w-4 h-4" />
               Flashcard 3D
+            </button>
+            <button
+              onClick={() => onSelectTab('dictation')}
+              className={`px-3 py-2 rounded-lg whitespace-nowrap shrink-0 transition-colors flex items-center gap-1.5 ${
+                currentTab === 'dictation'
+                  ? 'bg-indigo-50 text-indigo-700 font-semibold'
+                  : 'hover:text-slate-900 hover:bg-slate-50'
+              }`}
+            >
+              <Headphones className="w-4 h-4" />
+              Nghe viết
             </button>
             <button
               onClick={() => onSelectTab('practice')}
@@ -181,6 +194,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             Flashcard
+          </button>
+          <button
+            onClick={() => onSelectTab('dictation')}
+            className={`px-3 py-1.5 rounded-md whitespace-nowrap shrink-0 ${
+              currentTab === 'dictation' ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'text-slate-600'
+            }`}
+          >
+            Nghe viết
           </button>
           <button
             onClick={() => onSelectTab('practice')}

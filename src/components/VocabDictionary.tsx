@@ -11,7 +11,8 @@ import {
   Filter,
   CheckCircle2,
   Clock,
-  Layers
+  Layers,
+  Headphones
 } from 'lucide-react';
 
 interface VocabDictionaryProps {
@@ -21,6 +22,7 @@ interface VocabDictionaryProps {
   selectedGrade: number;
   onSelectGrade: (grade: number) => void;
   onLaunchUnitFlashcard: (grade: number, unit: number) => void;
+  onLaunchUnitDictation: (grade: number, unit: number) => void;
 }
 
 export const VocabDictionary: React.FC<VocabDictionaryProps> = ({
@@ -30,6 +32,7 @@ export const VocabDictionary: React.FC<VocabDictionaryProps> = ({
   selectedGrade,
   onSelectGrade,
   onLaunchUnitFlashcard,
+  onLaunchUnitDictation,
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedUnit, setSelectedUnit] = useState<number | 'all'>('all');
@@ -160,13 +163,22 @@ export const VocabDictionary: React.FC<VocabDictionaryProps> = ({
               Đang xem {displayedWords.length} từ vựng thuộc Unit này
             </p>
           </div>
-          <button
-            onClick={() => onLaunchUnitFlashcard(selectedGrade, selectedUnit as number)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors shrink-0"
-          >
-            <Layers className="w-3.5 h-3.5" />
-            <span>Học Flashcard Unit này</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <button
+              onClick={() => onLaunchUnitDictation(selectedGrade, selectedUnit as number)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            >
+              <Headphones className="w-3.5 h-3.5" />
+              <span>Nghe viết Unit này</span>
+            </button>
+            <button
+              onClick={() => onLaunchUnitFlashcard(selectedGrade, selectedUnit as number)}
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Học Flashcard Unit này</span>
+            </button>
+          </div>
         </div>
       )}
 

@@ -13,7 +13,8 @@ import {
   Award, 
   Clock, 
   School,
-  GraduationCap
+  GraduationCap,
+  Headphones
 } from 'lucide-react';
 
 interface OverviewProps {
@@ -22,6 +23,7 @@ interface OverviewProps {
   selectedGrade: number;
   onSelectGrade: (grade: number) => void;
   onStartFlashcard: () => void;
+  onStartDictation: () => void;
   onStartPractice: () => void;
   onStartSRS: () => void;
   onOpenGrade1Visual: () => void;
@@ -33,6 +35,7 @@ export const Overview: React.FC<OverviewProps> = ({
   selectedGrade,
   onSelectGrade,
   onStartFlashcard,
+  onStartDictation,
   onStartPractice,
   onStartSRS,
   onOpenGrade1Visual,
@@ -91,6 +94,14 @@ export const Overview: React.FC<OverviewProps> = ({
                 <Layers className="w-4 h-4" />
                 <span>Học Flashcard {selectedGradeObj.title}</span>
                 <ArrowRight className="w-4 h-4 ml-1" />
+              </button>
+
+              <button
+                onClick={onStartDictation}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-bold shadow-md transition-transform hover:scale-102 cursor-pointer"
+              >
+                <Headphones className="w-4 h-4" />
+                <span>Luyện Nghe Viết Lớp {selectedGradeObj.grade}</span>
               </button>
 
               <button
@@ -240,21 +251,35 @@ export const Overview: React.FC<OverviewProps> = ({
                   </p>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
                   <span className="font-semibold text-slate-700">
                     {gradeWords.length} từ vựng
                   </span>
 
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelectGrade(g.grade);
-                      onStartFlashcard();
-                    }}
-                    className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1"
-                  >
-                    Học ngay →
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectGrade(g.grade);
+                        onStartDictation();
+                      }}
+                      className="text-xs font-bold text-emerald-600 hover:text-emerald-800 inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      <Headphones className="w-3.5 h-3.5" />
+                      Nghe viết
+                    </button>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectGrade(g.grade);
+                        onStartFlashcard();
+                      }}
+                      className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 cursor-pointer"
+                    >
+                      Học ngay →
+                    </button>
+                  </div>
                 </div>
               </div>
             );

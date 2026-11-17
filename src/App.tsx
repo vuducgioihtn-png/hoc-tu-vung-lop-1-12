@@ -9,9 +9,10 @@ import { PracticeArena } from './components/PracticeArena';
 import { SRSDashboard } from './components/SRSDashboard';
 import { VocabDictionary } from './components/VocabDictionary';
 import { Grade1VisualHub } from './components/Grade1VisualHub';
+import { ListeningDictation } from './components/ListeningDictation';
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<'overview' | 'flashcard' | 'practice' | 'srs' | 'dictionary' | 'grade1_visual'>('overview');
+  const [currentTab, setCurrentTab] = useState<'overview' | 'flashcard' | 'dictation' | 'practice' | 'srs' | 'dictionary' | 'grade1_visual'>('overview');
   const [selectedGrade, setSelectedGrade] = useState<number>(() => {
     try {
       const saved = localStorage.getItem('eduvocab_selected_grade');
@@ -24,6 +25,7 @@ export default function App() {
   const [srsStore, setSrsStore] = useState<UserSRSStore>(() => loadSRSStore());
   const [flashcardFilter, setFlashcardFilter] = useState<'all' | 'due' | 'starred' | 'unlearned'>('all');
   const [activeUnitWords, setActiveUnitWords] = useState<VocabWord[] | null>(null);
+  const [dictationInitialUnit, setDictationInitialUnit] = useState<number | 'all'>('all');
 
   // Save selected grade
   useEffect(() => {
@@ -68,6 +70,12 @@ export default function App() {
     setCurrentTab('flashcard');
   };
 
+  const handleLaunchUnitDictation = (grade: number, unit: number) => {
+    setSelectedGrade(grade);
+    setDictationInitialUnit(unit);
+    setCurrentTab('dictation');
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
       
@@ -76,6 +84,9 @@ export default function App() {
         currentTab={currentTab}
         onSelectTab={(tab) => {
           setActiveUnitWords(null);
+          if (tab === 'dictation') {
+            setDictationInitialUnit('all');
+          }
           setCurrentTab(tab);
         }}
         selectedGrade={selectedGrade}
@@ -100,6 +111,10 @@ export default function App() {
               setActiveUnitWords(null);
             }}
             onStartFlashcard={handleStartNormalFlashcard}
+            onStartDictation={() => {
+              setDictationInitialUnit('all');
+              setCurrentTab('dictation');
+            }}
             onStartPractice={() => setCurrentTab('practice')}
             onStartSRS={() => setCurrentTab('srs')}
             onOpenGrade1Visual={() => {
@@ -118,6 +133,20 @@ export default function App() {
             onUpdateStore={handleUpdateStore}
             selectedGradeTitle={currentGradeObj.title}
             initialFilter={flashcardFilter}
+          />
+        )}
+
+        {currentTab === 'dictation' && (
+          <ListeningDictation
+            allWords={ALL_VOCABULARY}
+            selectedGrade={selectedGrade}
+            onSelectGrade={(g) => {
+              setSelectedGrade(g);
+              setActiveUnitWords(null);
+            }}
+            srsStore={srsStore}
+            onUpdateStore={handleUpdateStore}
+            initialUnit={dictationInitialUnit}
           />
         )}
 
@@ -178,6 +207,7 @@ export default function App() {
               setActiveUnitWords(null);
             }}
             onLaunchUnitFlashcard={handleLaunchUnitFlashcard}
+            onLaunchUnitDictation={handleLaunchUnitDictation}
           />
         )}
       </main>
